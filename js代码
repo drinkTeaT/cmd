@@ -1,0 +1,89 @@
+第一种：      
+<script language="javascript" type="text/javascript">  
+       window.location.href="login.jsp?backurl="+window.location.href;  
+</script>  
+
+
+第二种：      
+<script language="javascript">  
+       alert("返回");  
+       window.history.back(-1);     
+</script>  
+
+
+第三种：     
+<script language="javascript">  
+       window.navigate("top.jsp");    
+</script>  
+
+
+第四种：     
+<script language="JavaScript">            
+       self.location=’top.htm’;     
+</script>  
+
+
+第五种：     
+<script language="javascript">            
+       alert("非法访问！");            
+       top.location=’xx.jsp’;     
+</script> 
+ 
+＝＝＝＝＝javascript中弹出选择框跳转到其他页面＝＝＝＝＝  
+<script language="javascript">  
+<!--  
+function logout()...{  
+if (confirm("你确定要注销身份吗？是－选择确定，否-选择取消"))...{  
+window.location.href="logout.asp?act=logout"  
+}  
+}  
+-->  
+</script> 
+ 
+＝＝＝＝＝javascript中弹出提示框跳转到其他页面＝＝＝＝＝  
+<script language="javascript">  
+<!--  
+function logout()...{  
+alert("你确定要注销身份吗？");  
+window.location.href="logout.asp?act=logout"  
+}  
+-->  
+</script> 
+
+window.location="";和 location.replace("");有什么区别？
+
+这两个都能让网页导向令一个网址，那么有什么区别呢？比如能带参数，不能带参数之类的.
+
+ Replace?还是Reload()?
+
+好像没什么区别吧？没试过
+
+  
+
+replace(),reload()是重新加载本页，而replace()可以导向另外一个URL
+
+ 
+
+给你举个例子:
+
+我们现在有3个页面（a.html, b.html, c.html）.
+
+默认打开a.html页面,然后在a.html页面中通过一个链接转向a.html页面。
+
+现在，我在b.html页面中用window.location.replace("c.html");与用window.location.href("c.html");分别进入c.html页面.
+
+从用户界面来看是没有什么区别的，但是现在c.html页面有一个“返回”按钮，
+
+用window.location.href("c.html");进入c.html页面时,
+
+c.html页面中的调用window.history.go(-1);wondow.history.back();进入c.html页面时，一点这个"返回"按钮就要返回b.html页面的话，
+
+而如果用window.location.replace("c.html");进入c.html页面的话，
+
+c.html页面中的调用window.history.go(-1);wondow.history.back();方法是不好用的，会返回到a.html.
+
+ 
+
+因为window.location.replace("c.html");是不会向服务器发送请求而进行跳转，而window.history.go(-1);wondow.history.back();方法是根据服务器记录的请求决定该跳到哪个页面的，所以会跳到系统默认页面a.html 。
+
+window.location.href("c.html");是向服务器发送请求的跳转，window.history.go(-1);wondow.history.back();方法是根据服务器记录的请求决定该跳到哪个页面的，所以就可以返回到b.html。
