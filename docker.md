@@ -94,3 +94,7 @@ Docker rm 容器id
 数据管理
 
 数据卷：将容器数据映射到主机中
+
+端口映射
+
+docker run -p 8000:80 -it ubuntu /bin/bash
