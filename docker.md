@@ -97,4 +97,4 @@ Docker rm 容器id
 
 端口映射
 
-docker run -p 8000:80 -it ubuntu /bin/bash
+docker run -p 3306:3306 --name JY_mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
