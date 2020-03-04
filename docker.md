@@ -100,3 +100,5 @@ Docker rm 容器id
 docker run -p 3306:3306 --name JY_mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
 
 docker run --name nginx-test -p 8080:80 -d nginx
+
+docker run -itd --name redis-test -p 6379:6379 redis
