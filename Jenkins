@@ -20,3 +20,10 @@ chmod 777 /root/app/town-0.0.1-SNAPSHOT.jar
 BUILD_ID=dontKillMe
 nohup java -jar /root/app/town-0.0.1-SNAPSHOT.jar &
 # 结束
+
+
+流程：
+1 下载，安装maven integer等插件
+2 配置git，输入账号密码
+3 模块构建时，除了主pom,web和微服务保留build其他删除
+4 web的pom指定主类
