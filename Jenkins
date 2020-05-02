@@ -1,0 +1,22 @@
+post steps：
+# 开始
+#!/bin/bash 
+
+# 将应用停止
+echo "Stopping SpringBoot Application"
+pid=`ps -ef | grep town-0.0.1-SNAPSHOT.jar | grep -v grep | awk '{print $2}'`
+if [ -n "$pid" ]
+then
+   kill -9 $pid
+fi
+
+
+
+mv -f /var/lib/jenkins/workspace/town/target/town-0.0.1-SNAPSHOT.jar /root/app/town-0.0.1-SNAPSHOT.jar
+
+chmod 777 /root/app/town-0.0.1-SNAPSHOT.jar
+
+#bash /usr/local/dofun/start.sh
+BUILD_ID=dontKillMe
+nohup java -jar /root/app/town-0.0.1-SNAPSHOT.jar &
+# 结束
