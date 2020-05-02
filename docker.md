@@ -111,6 +111,8 @@ docker stop 容器id
 
 docker attach 容器id
 
+docker exec -it b06fae9dcf21 /bin/bash
+
 删除容器
 
 Docker rm 容器id
