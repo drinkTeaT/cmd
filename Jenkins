@@ -1,29 +1,43 @@
 post steps：
-# 开始
-#!/bin/bash 
 
-# 将应用停止
-echo "Stopping SpringBoot Application"
-pid=`ps -ef | grep town-0.0.1-SNAPSHOT.jar | grep -v grep | awk '{print $2}'`
-if [ -n "$pid" ]
-then
-   kill -9 $pid
+#!/bin/bash
+app=weixin-web-1.0-wx.jar
+log=weixin.nohup
+path=wechat/weixin-web
+
+echo this is app : $app
+
+#若项目已启动，杀死旧进程
+api_pid=`ps -ef | grep "$app" | grep -v grep | awk '{print $2}'`
+echo api_pid = $api_pid
+
+if [ "$api_pid" != "" ]; then
+        echo kill api
+        kill -9 $api_pid
+
+        echo sleep 3s
+        sleep 1
+        echo sleep 2s
+        sleep 1
+        echo sleep 1s
+        sleep 1
 fi
 
+#将jar包从jenkins工作空间中移动到指定路径下
+mv /var/lib/jenkins/workspace/$path/target/$app /root/app/$app
 
+#chmod 777 /root/app/$app
 
-mv -f /var/lib/jenkins/workspace/town/target/town-0.0.1-SNAPSHOT.jar /root/app/town-0.0.1-SNAPSHOT.jar
-
-chmod 777 /root/app/town-0.0.1-SNAPSHOT.jar
-
-#bash /usr/local/dofun/start.sh
+#防止进程被杀死
 BUILD_ID=dontKillMe
-nohup java -jar /root/app/town-0.0.1-SNAPSHOT.jar &
-# 结束
+#后台进程形式启动项目
+nohup java -jar -Xmx256m -Xms128m  /root/app/$app >/root/app/$log  & 2>&1 &
+echo $app start success
+exit 0
 
 
 流程：
-1 下载，安装maven integer等插件
+1 下载，安装maven integer等插件。添加Jenkins账号到root.
 2 配置git，输入账号密码
 3 模块构建时，除了主pom,web和微服务保留build其他删除
 4 web的pom指定主类
