@@ -3,7 +3,7 @@ post steps：
 #!/bin/bash
 app=weixin-web-1.0-wx.jar
 log=weixin.nohup
-path=wechat/weixin-web
+path=web-wechat/weixin-web
 
 echo this is app : $app
 
@@ -32,6 +32,8 @@ mv /var/lib/jenkins/workspace/$path/target/$app /root/app/$app
 BUILD_ID=dontKillMe
 #后台进程形式启动项目
 nohup java -jar -Xmx256m -Xms128m  /root/app/$app >/root/app/$log  & 2>&1 &
+#调试
+#java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8088 -jar -Xmx256m -Xms128m /root/app/$app >/root/app/$log  & 2>&1 &
 echo $app start success
 exit 0
 
