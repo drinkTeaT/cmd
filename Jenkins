@@ -14,7 +14,10 @@ echo api_pid = $api_pid
 if [ "$api_pid" != "" ]; then
         echo kill api
         kill -9 $api_pid
-
+        echo sleep 5s
+        sleep 1
+ 		echo sleep 4s
+        sleep 1
         echo sleep 3s
         sleep 1
         echo sleep 2s
@@ -36,7 +39,6 @@ nohup java -jar -Xmx256m -Xms128m  /root/app/$app >/root/app/$log  & 2>&1 &
 #java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8088 -jar -Xmx256m -Xms128m /root/app/$app >/root/app/$log  & 2>&1 &
 echo $app start success
 exit 0
-
 
 流程：
 1 下载，安装maven integer等插件。添加Jenkins账号到root.
