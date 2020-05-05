@@ -1,4 +1,4 @@
-post steps：
+pre steps:
 
 #!/bin/bash
 app=weixin-web-1.0-wx.jar
@@ -14,10 +14,8 @@ echo api_pid = $api_pid
 if [ "$api_pid" != "" ]; then
         echo kill api
         kill -9 $api_pid
-        echo sleep 5s
-        sleep 1
- 		echo sleep 4s
-        sleep 1
+ 		echo sleep 5s
+        sleep 2
         echo sleep 3s
         sleep 1
         echo sleep 2s
@@ -25,6 +23,17 @@ if [ "$api_pid" != "" ]; then
         echo sleep 1s
         sleep 1
 fi
+
+echo 应用关闭，准备重新部署!
+
+post steps：
+#!/bin/bash
+app=weixin-web-1.0-wx.jar
+log=weixin.nohup
+path=web-wechat/weixin-web
+
+echo this is app : $app
+
 
 #将jar包从jenkins工作空间中移动到指定路径下
 mv /var/lib/jenkins/workspace/$path/target/$app /root/app/$app
@@ -34,9 +43,9 @@ mv /var/lib/jenkins/workspace/$path/target/$app /root/app/$app
 #防止进程被杀死
 BUILD_ID=dontKillMe
 #后台进程形式启动项目
-nohup java -jar -Xmx256m -Xms128m  /root/app/$app >/root/app/$log  & 2>&1 &
+#nohup java -jar -Xmx256m -Xms128m  /root/app/$app >/root/app/$log  & 2>&1 &
 #调试
-#java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8088 -jar -Xmx256m -Xms128m /root/app/$app >/root/app/$log  & 2>&1 &
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8088 -jar -Xmx256m -Xms128m /root/app/$app >/root/app/$log  & 2>&1 &
 echo $app start success
 exit 0
 
