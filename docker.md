@@ -98,6 +98,7 @@ Docker run -it 镜像名:标签 command
 查看运行的容器
 
 docker ps
+停止和运行的容器 docker ps -a
 
 暂停容器
 
