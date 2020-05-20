@@ -1,0 +1,5 @@
+服务提供者配置：
+-Dapollo.configService=http://10.0.46.45:8080 -Ddubbo.provider.group=tacbin -Dserver.port=8087 -Dlog.log-default-file=CONSOLE_LOG  -Dsharding.jdbc.bootfast.enabled=true -Dsharding.jdbc.bootfast.threads=128
+
+消费者配置：
+-Dapollo.configService=http://10.0.46.45:8080 -Ddubbo.consumers.message-consumer-config.group=tacbin -Ddubbo.provider.group=tacbin -Dserver.port=8088 -Dlog.log-default-file=CONSOLE_LOG  -Dsharding.jdbc.bootfast.enabled=true -Dsharding.jdbc.bootfast.threads=128
