@@ -124,7 +124,7 @@ Docker rm 容器id
 
 端口映射
 
-docker run -p 3306:3306 --name mysql_80 -e MYSQL_ROOT_PASSWORD=password -d mysql:8 mysqld --default-authentication-plugin=mysql_native_password
+docker run -p 3306:3306 --name mysql_80 -e MYSQL_ROOT_PASSWORD=tacbin@123 -d 镜像名 mysqld --default-authentication-plugin=mysql_native_password
 
 docker run --name nginx-test -p 8080:80 -d nginx
 
