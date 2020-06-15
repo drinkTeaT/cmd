@@ -1,1 +1,1 @@
-1 文件映射和端口映射，服务器端口8080映射到容器80：docker run -v /E/map-to-docker:/staticFiles  --name nginx-test -p 8080:80 -d nginx:latest
+1 文件映射和端口映射，服务器端口8080映射到容器80：docker run -v /E/map-to-docker:/usr/share/nginx/html  --name nginx-test -p 8080:80 -d nginx:latest
