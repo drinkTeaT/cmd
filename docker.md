@@ -120,7 +120,7 @@ Docker rm 容器id
 
 数据管理
 
-数据卷：将容器数据映射到主机中
+数据卷：-v /D/Docker/redis/data:/data (启动时添加这个参数d盘映射到容器里)
 
 端口映射
 
