@@ -1,1 +1,3 @@
+1 查看linux自带防火墙 systemctl status firewalld
 
+2 安装iptables yum install iptables
