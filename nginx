@@ -1,3 +1,10 @@
 1 文件映射和端口映射，服务器端口8080映射到容器80：docker run -v /E/map-to-docker:/usr/share/nginx/html  --name nginx-test -p 8080:80 -d nginx:latest
 
 2 热加载配置 nginx -s load
+
+安装：
+sudo yum install nginx
+开机启动：
+sudo systemctl enable nginx
+启动：
+sudo systemctl start nginx
