@@ -1,4 +1,4 @@
 1：安装jdk yum -y install java-1.8.0-openjdk-devel.x86_64
 2：启动程序：nohup java -jar xxx.jar &
-  2.1：nohup java -jar -Xms128m -Xmx256m xxx.jar --server.port=8080 &
+  2.1：nohup java -Dfile.encoding=UTF-8  -jar -Xms128m -Xmx256m town-web-1.1-town.jar --server.port=9001 &
 3：dump文件   jmap -dump:file=文件名.dump pid
