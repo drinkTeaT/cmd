@@ -129,3 +129,6 @@ docker run -p 3306:3306 --name mysql_80 -e MYSQL_ROOT_PASSWORD=密码 -e TZ=Asia
 docker run --name nginx-test -p 8080:80 -d nginx
 
 docker run -d --name myredis -p 6379:6379 redis --requirepass "mypassword"
+
+docker pull docker.io/rabbitmq:3.8-management
+docker run -d --hostname rabbitmq --name rabbit -p 5672:5672 -p 15672:15672 rabbitmq
