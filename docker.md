@@ -1,5 +1,5 @@
 ## docker：
-
+腾讯云 加速https://cloud.tencent.com/document/product/457/9113
 ### 安装 卸载
       安装：一、yum安装docker（CentOS 7）
 Docker CE 即社区免费版，Docker EE 即企业版，强调安全，但需付费使用。
