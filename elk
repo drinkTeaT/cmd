@@ -1,7 +1,5 @@
 文章目录结构如下：
 
-
-image.png
 巨坑提醒：ES和kibana的版本尽可能的保证一致，否则要去修改很多配置信息，而且不一定能安装成功，现象：ES安装成功了但是kibana无法链接到ES，报红（red）。
 
 1、安装完后的ELK访问路径
@@ -99,8 +97,7 @@ image.png
 第一步：安装
 选择使用官网中的镜像地址：
 
-docker run --name es_logstash docker.elastic.co/logstash/logstash:6.2.4
-docker run --name es_logstash logstash:6.2.4
+docker run --name es_logstash -p 4560:4560 docker.elastic.co/logstash/logstash:6.2.4
 
 容器名称"es_logstash“ ，版本”6.2.4“
 
@@ -161,10 +158,12 @@ vi logstash.conf
 #========================================
 #添加的部分
 input {
-        file {
-            codec=> json
-                path => "/usr/local/*.json"
-        }
+  tcp {
+    mode => "server"
+    host => "0.0.0.0"
+    port => 4560
+    codec => json_lines
+  }
 }
 filter {
   #定义数据的格式
@@ -194,5 +193,137 @@ http://localhost:5601/
 
 作者：小明哥206
 链接：https://www.jianshu.com/p/a0bd70301eec
-来源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+------ springboot配置 -------------
+参考链接：https://juejin.cn/post/6844903887745318920#heading-15
+
+<!--集成logstash-->
+<dependency>
+    <groupId>net.logstash.logback</groupId>
+    <artifactId>logstash-logback-encoder</artifactId>
+    <version>5.3</version>
+</dependency>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!--输出到logstash的appender-->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--可以访问的logstash日志收集端口-->
+        <destination>192.168.1.3:4560</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <springProperty scope="context" name="log.logLevel" source="log.log-level"/>
+    <springProperty scope="context" name="log.logDefaultFile" source="log.log-default-file"/>
+    <springProperty scope="context" name="log.logRoot" source="log.log-root"/>
+
+    <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>${log.logLevel}</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${log.logRoot}/sm_info.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{initiationID}] [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${log.logRoot}/sm_info_%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <file>${log.logRoot}/sm_error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{initiationID}] [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${log.logRoot}/sm_error_%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">   
+        <encoder>     
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%X{initiationID}] %-5level [%t] %c - %m%n</pattern>
+               
+        </encoder>
+    </appender>
+
+    <logger name="com.tacbin" level="${log.logLevel}" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <logger name="com.ejavashop" level="${log.logLevel}" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <logger name="org.apache.commons.beanutils" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <logger name="net.sf.ehcache" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <logger name="com.alibaba.druid" level="INFO" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+    <logger name="com.alibaba" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+    <logger name="org.apache.dubbo" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+    <logger name="org.mybatis" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+    <logger name="com.baomidou" level="WARN" additivity="false">
+        <!--<appender-ref ref="CONSOLE_LOG" />-->
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+
+    <root level="${log.logLevel}">
+        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="${log.logDefaultFile}"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </root>
+</configuration>
+
+kinaba搜索logstash
