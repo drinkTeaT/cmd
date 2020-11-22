@@ -1,0 +1,198 @@
+文章目录结构如下：
+
+
+image.png
+巨坑提醒：ES和kibana的版本尽可能的保证一致，否则要去修改很多配置信息，而且不一定能安装成功，现象：ES安装成功了但是kibana无法链接到ES，报红（red）。
+
+1、安装完后的ELK访问路径
+ES访问 ：http://localhost:9200/
+
+Es-head访问： http://localhost:9100/
+
+kibana访问：http://localhost:5601
+
+2、ElasticSearch
+可以事先搜索一下：
+
+docker search elasticsearch
+第一步：拉取镜像
+docker pull docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+注意可以是其他版本，本次安装拉取"6.3.2"版本，
+
+下载需要一段时间，完毕后可以查看镜像，注意：如果下载不成功，可以查找其他版本。
+
+docker images
+第二步：安装
+docker run -d --name es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+ElasticSearch的默认端口是9200，我们把宿主环境9200端口映射到Docker容器中的9200端口，就可以访问到Docker容器中的ElasticSearch服务了，同时我们把这个容器命名为es。
+
+第三步：配置跨域
+1）进入容器
+docker exec -it es /bin/bash
+其中"es"是容器名称
+
+2）修改 elasticsearch.yml
+# 显示文件
+ls
+结果如下：
+LICENSE.txt  README.textile  config  lib   modules
+NOTICE.txt   bin             data    logs  plugins
+# 进入配置文件夹
+cd config
+# 显示文件
+ls
+结果如下：
+elasticsearch.keystore  ingest-geoip  log4j2.properties  roles.yml  users_roles
+elasticsearch.yml       jvm.options   role_mapping.yml   users
+# 修改配置文件
+vi elasticsearch.yml
+#==========================================重点在这==================================
+# 加入跨域配置
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+使用三个命令：
+
+1） 修改命令 shift + i；
+
+2）退出修改模式esc；
+
+3）保存退出shift + :  wq
+第四步：重启容器
+docker restart es 
+第五步：访问地址
+http://localhost:9200/
+
+显示效果如下就成功了
+
+{
+ "name" : "a12CcOw",
+ "cluster_name" : "docker-cluster",
+ "cluster_uuid" : "Zi4eufCQQ6y88rO0lt9YVw",
+ "version" : {
+   "number" : "6.3.2",
+   "build_flavor" : "default",
+   "build_type" : "tar",
+   "build_hash" : "053779d",
+   "build_date" : "2018-07-20T05:20:23.451332Z",
+   "build_snapshot" : false,
+   "lucene_version" : "7.3.1",
+   "minimum_wire_compatibility_version" : "5.6.0",
+   "minimum_index_compatibility_version" : "5.0.0"
+ },
+ "tagline" : "You Know, for Search"
+}
+3、ElasticSearch-Head
+为什么要安装ElasticSearch-Head呢，原因是需要有一个管理界面进行查看ElasticSearch相关信息
+
+第一步：拉取
+docker pull mobz/elasticsearch-head:5
+第二步：安装
+docker run -d --name es_admin -p 9100:9100 mobz/elasticsearch-head:5
+第三步：访问地址
+http://localhost:9100/
+
+见如下效果就成功了
+
+
+image.png
+4、安装logstash
+第一步：安装
+选择使用官网中的镜像地址：
+
+docker run --name es_logstash docker.elastic.co/logstash/logstash:6.2.4
+docker run --name es_logstash logstash:6.2.4
+
+容器名称"es_logstash“ ，版本”6.2.4“
+
+第二步：修改logstash.yml文件
+进入容器：
+
+docker exec -it es_logstash /bin/bash
+进入目录cd config ，打开并修改配置文件
+
+vi logstash.yml
+使用三个命令：
+
+1） 修改命令 shift + i；
+
+2）退出修改模式esc；
+
+3）保存退出shift + :  wq
+http.host: "0.0.0.0"
+xpack.monitoring.elasticsearch.url: http://192.168.2.153:9200
+xpack.monitoring.elasticsearch.username: elastic
+xpack.monitoring.elasticsearch.password: changme
+
+ipconfig 查看ip注意，一定是本机器IP地址。xpack.monitoring.elasticsearch.url: http://192.168.2.153:9200
+
+5、安装kibana
+第一步：拉取
+docker pull kibana:5.6.14 
+注意版本一定要比ES低。
+
+第二步：安装
+docker run --name es_kibana -p 5601:5601 -d -e ELASTICSEARCH_URL=http://192.168.2.153:9200 kibana:5.6.14
+注意：我下载的版本是5.6.14
+
+访问地址：http://127.0.0.1:5601。如果你的kibana版本高于ES的版本，访问后会报错 "Kibana server is not ready yet"。因此在安装前务必下载版本比ES低。
+
+第三步：修改
+1）修改pipeline下的logstash.conf文件
+docker exec -it es_logstash /bin/bash
+ls
+bin  config  CONTRIBUTORS  data  Gemfile  Gemfile.lock  lib  LICENSE  logstash-core  logstash-core-plugin-api  modules  NOTICE.TXT  pipeline  tools  vendor
+cd pipeline
+ls
+logstash.conf
+vi logstash.conf
+#原来的
+#========================================
+#input {
+#  beats {
+#    port => 5044
+#  }
+#}
+
+#output {
+#  stdout {
+#    codec => rubydebug
+#  }
+#}
+#========================================
+#添加的部分
+input {
+        file {
+            codec=> json
+                path => "/usr/local/*.json"
+        }
+}
+filter {
+  #定义数据的格式
+  grok {
+    match => { "message" => "%{DATA:timestamp}\|%{IP:serverIp}\|%{IP:clientIp}\|%{DATA:logSource}\|%{DATA:userId}\|%{DATA:reqUrl}\|%{DATA:reqUri}\|%{DATA:refer}\|%{DATA:device}\|%{DATA:textDuring}\|%{DATA:duringTime:int}\|\|"}
+  }
+}
+output {
+   elasticsearch{
+     hosts=> "http://192.168.2.153:9200"
+   }
+}
+注意，一定是本机器IP地址， hosts=> "http://192.168.2.153:9200"
+
+容器全部重启
+
+
+xx-Air::~ ming$ docker restart 122bddb80fb9
+122bddb80fb9
+xx-Air:~ ming$ docker restart es_admin
+es_admin
+xx-Air::~ ming$ docker restart 8a4cba6ae3aa
+8a4cba6ae3aa
+xx-Air::~ ming$ docker restart 415d5e4b3383
+第四步：访问地址
+http://localhost:5601/
+
+作者：小明哥206
+链接：https://www.jianshu.com/p/a0bd70301eec
+来源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
