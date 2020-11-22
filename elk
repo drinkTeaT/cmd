@@ -122,6 +122,9 @@ xpack.monitoring.elasticsearch.password: changme
 
 ipconfig 查看ip注意，一定是本机器IP地址。xpack.monitoring.elasticsearch.url: http://192.168.2.153:9200
 
+安装插件：logstash-plugin install logstash-codec-json_lines
+
+
 5、安装kibana
 第一步：拉取
 docker pull kibana:5.6.14 
