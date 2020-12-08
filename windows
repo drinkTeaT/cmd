@@ -1,0 +1,4 @@
+批量杀掉某个应用的所有进程：
+taskkill /F /im java.exe 
+/F 强制
+/im 为标识应用名
