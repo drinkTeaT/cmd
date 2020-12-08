@@ -1,3 +1,11 @@
+##### 开发环境配置
+1：安装node.js，一直点点点
+2：npm配置镜像源，npm config set registry http://registry.npm.taobao.org/
+3：查看镜像源，npm get registry 
+4：安装webpack，npm install webpack -g
+5：安装vue-cli，npm install --global vue-cli。验证命令:vue -V 
+
+ 
  npm install bootstrap jquery popper.js
  
  main.js导入
