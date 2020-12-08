@@ -5,6 +5,9 @@
 4：安装webpack，npm install webpack -g
 5：安装vue-cli，npm install --global vue-cli。验证命令:vue -V 
 
+遇到的问题：
+1 vue-cli无法执行。
+解决：npm config get prefix 找到目录。将vue-cli配置为当前目录下的vue目录即可。
  
  npm install bootstrap jquery popper.js
  
