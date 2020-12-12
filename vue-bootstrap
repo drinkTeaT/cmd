@@ -10,7 +10,7 @@
 解决：npm config get prefix 找到目录。将vue-cli配置为当前目录下的vue目录即可。
  
 2 更新了数据，页面没进行刷新
-解决：添加this.$forceUpdate()
+解决：对对象来说，如果引用未改变。不会同步数据的。添加this.$forceUpdate()
 
 流程：
 1 导入bootstrap
