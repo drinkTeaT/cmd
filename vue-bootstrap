@@ -9,6 +9,11 @@
 1 vue-cli无法执行。
 解决：npm config get prefix 找到目录。将vue-cli配置为当前目录下的vue目录即可。
  
+2 更新了数据，页面没进行刷新
+解决：添加this.$forceUpdate()
+
+流程：
+1 导入bootstrap
  npm install bootstrap jquery popper.js
  
  main.js导入
@@ -17,12 +22,12 @@ import 'bootstrap'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-字体
+2 导入字体
 $ npm install --save-dev @fortawesome/fontawesome-free
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
-jquery-easing插件
+3 导入jquery-easing插件
 npm install jquery-easing
 在main.js 引入即可 import 'jquery-easing'
 自定义的js里需要引入jquery才行
