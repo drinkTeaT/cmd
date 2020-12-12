@@ -19,7 +19,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 字体
 $ npm install --save-dev @fortawesome/fontawesome-free
-
-
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
+
+jquery-easing插件
+npm install jquery-easing
+在main.js 引入即可 import 'jquery-easing'
+自定义的js里需要引入jquery才行
