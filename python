@@ -4,4 +4,9 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 
 爬虫：
-scrapy startproject tutorial
+scrapy startproject exam
+
+cd exam
+
+
+scrapy genspider choice localhost
