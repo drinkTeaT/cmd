@@ -1,5 +1,9 @@
 ## docker：
-腾讯云 加速https://cloud.tencent.com/document/product/457/9113 教程
+腾讯云 加速 https://cloud.tencent.com/document/product/457/9113 教程
+
+{
+  "registry-mirrors": ["https://z0n7xiet.mirror.aliyuncs.com"]
+}
 
 windows下载：https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe
 ### 安装 卸载
