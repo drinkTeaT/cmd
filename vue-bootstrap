@@ -33,3 +33,6 @@ npm install jquery-easing
 自定义的js里需要引入jquery才行
 
 4 出滚动条 style="height: 90vh;  overflow:scroll; " 
+
+5 bootstrap-table
+npm install bootstrap-table
