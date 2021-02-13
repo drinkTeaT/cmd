@@ -31,3 +31,5 @@ import '@fortawesome/fontawesome-free/js/all.js'
 npm install jquery-easing
 在main.js 引入即可 import 'jquery-easing'
 自定义的js里需要引入jquery才行
+
+4 出滚动条 style="height: 90vh;  overflow:scroll; " 
