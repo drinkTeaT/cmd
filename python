@@ -1,5 +1,7 @@
 桌面下载：http://npm.taobao.org/mirrors/python/3.9.1/
 
+代码提示 # type:Response
+
 全局设置下载源：
 pip install pip -U
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
