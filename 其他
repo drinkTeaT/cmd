@@ -1,0 +1,4 @@
+访问github慢:
+1 https://github.com.ipaddress.com/找到cdn地址
+2 打开C:\Windows\System32\drivers\etc
+3 修改ip对应的网址，例如140.82.113.4 github.com 即可
