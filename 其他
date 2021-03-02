@@ -4,10 +4,13 @@
 3 修改ip对应的网址，例如140.82.113.4 github.com 即可
 
 加速器:
-1 yum -y install wget
-2 wget https://install.direct/go.sh
-3 yum install -y zip unzip  
-4 bash go.sh
+
+1 bash <(curl -s -L https://git.io/v2ray.sh)
+
+如果提示 curl: command not found ，那是因为你的 VPS 没装 Curl
+ubuntu/debian 系统安装 Curl 方法: apt-get update -y && apt-get install curl -y
+centos 系统安装 Curl 方法: yum update -y && yum install curl -y
+安装好 curl 之后就能安装脚本了
 
 ## 启动
 5 systemctl start v2ray
