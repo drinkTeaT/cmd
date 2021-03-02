@@ -2,3 +2,29 @@
 1 https://github.com.ipaddress.com/找到cdn地址
 2 打开C:\Windows\System32\drivers\etc
 3 修改ip对应的网址，例如140.82.113.4 github.com 即可
+
+加速器:
+1 yum -y install wget
+2 wget https://install.direct/go.sh
+3 yum install -y zip unzip  
+4 bash go.sh
+
+## 启动
+5 systemctl start v2ray
+
+## 停止
+systemctl stop v2ray
+
+## 重启
+systemctl restart v2ray
+
+## 开机自启
+systemctl enable v2ray
+
+6 cat /etc/v2ray/config.json
+
+7 ## 查看已开放端口
+firewall-cmd --zone=public --list-ports
+
+## 添加开放端口
+firewall-cmd --zone=public --add-port=80/tcp --permanent
