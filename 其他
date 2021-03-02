@@ -31,15 +31,4 @@ firewall-cmd --zone=public --list-ports
 
 ## 添加开放端口
 firewall-cmd --zone=public --add-port=80/tcp --permanent
- 地址 (Address) = 129.204.189.111
-
- 端口 (Port) = 45252
-
- 用户ID (User ID / UUID) = 79d99905-3b7b-41a6-9f93-f2254e4827b1
-
- 额外ID (Alter Id) = 0
-
- 传输协议 (Network) = tcp
-
- 伪装类型 (header type) = none
 
