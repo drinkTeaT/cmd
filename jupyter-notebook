@@ -1,0 +1,13 @@
+安装运行:
+  python -m pip install jupyter   
+  jupyter notebook
+
+插件
+1 markdown编辑器
+地址: https://github.com/genepattern/jupyter-wysiwyg
+使用:
+  1 安装:  python -m pip install jupyter-wysiwyg
+  2 启用:  jupyter nbextension install --py jupyter_wysiwyg
+
+           jupyter nbextension enable --py jupyter_wysiwyg
+  3 使用： 选择markdown的格子，在左侧能看到编辑按钮
