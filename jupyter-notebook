@@ -1,5 +1,6 @@
 1 安装运行:
   python -m pip install jupyter   
+  # 决定了读哪里的文件
   jupyter notebook
 
 2 快捷键
