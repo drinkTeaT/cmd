@@ -5,6 +5,7 @@
 
 2 快捷键
   tab:代码提示
+  z : 撤销
 
 3 插件
 markdown编辑器
@@ -15,3 +16,8 @@ markdown编辑器
 
            jupyter nbextension enable --py jupyter_wysiwyg
   3 使用： 选择markdown的格子，在左侧能看到编辑按钮
+  
+ 通用插件
+ python -m pip install jupyter_contrib_nbextensions
+ 
+ jupyter contrib nbextension install --user --skip-running-check
