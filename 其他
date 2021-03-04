@@ -3,32 +3,67 @@
 2 打开C:\Windows\System32\drivers\etc
 3 修改ip对应的网址，例如140.82.113.4 github.com 即可
 
-加速器:
+桥接加速器:
 
-1 bash <(curl -s -L https://git.io/v2ray.sh)
+1 中转以及目的机器 bash <(curl -s -L https://git.io/v2ray.sh)
 
 如果提示 curl: command not found ，那是因为你的 VPS 没装 Curl
 ubuntu/debian 系统安装 Curl 方法: apt-get update -y && apt-get install curl -y
 centos 系统安装 Curl 方法: yum update -y && yum install curl -y
 安装好 curl 之后就能安装脚本了
 
-## 启动
-5 systemctl start v2ray
+2 中转配置
 
-## 停止
-systemctl stop v2ray
+{
+	"inbounds": [{
+		"port": 60735,
+		"protocol": "dokodemo-door",
+		"settings": {
+			"address": "目的ip",
+			"port": 目的端口,
+			"network": "tcp,udp"
+		},
+		"tag": "",
+		"sniffing": {
+			"enabled": true,
+			"destOverride": [
+				"http",
+				"tls"
+			]
+		}
+	},
+	{"port": 62756,
+		"protocol": "dokodemo-door",
+		"settings": {
+			"address": "目的ip",
+			"port": 目的端口,
+			"network": "tcp,udp"
+		},
+		"tag": "",
+		"sniffing": {
+			"enabled": true,
+			"destOverride": [
+				"http",
+				"tls"
+			]
+		}
+	}],
 
-## 重启
-systemctl restart v2ray
+	"outbounds": [{
+		"protocol": "freedom",
+		"settings": {}
+	}, {
+		"protocol": "blackhole",
+		"settings": {},
+		"tag": "blocked"
+	}],
+	"routing": {
+		"rules": [{
+			"type": "field",
+			"ip": ["geoip:private"],
+			"outboundTag": "blocked"
+		}]
+	}
+}
 
-## 开机自启
-systemctl enable v2ray
-
-6 cat /etc/v2ray/config.json
-
-7 ## 查看已开放端口
-firewall-cmd --zone=public --list-ports
-
-## 添加开放端口
-firewall-cmd --zone=public --add-port=80/tcp --permanent
-
+3 客户端配置ip和端为中转机器的，认证方式为目的机器的
