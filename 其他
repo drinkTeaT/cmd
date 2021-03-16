@@ -68,6 +68,3 @@ centos 系统安装 Curl 方法: yum update -y && yum install curl -y
 
 3 客户端配置ip和端为中转机器的，认证方式为目的机器的
 4  实况足球，netch设置为只tcp转发
-
-苹果日历订阅:
-http://icalshare.com/
