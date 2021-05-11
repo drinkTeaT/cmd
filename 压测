@@ -1,0 +1,9 @@
+docker pull ngrinder/controller
+docker run -d -v ~/ngrinder-controller:/opt/ngrinder-controller --name controller -p 80:80 -p 16001:16001 -p 12000-12009:12000-12009 ngrinder/controller
+
+docker pull ngrinder/agent
+docker run -d --name agent --link controller:controller ngrinder/agent
+
+docker run -d --name agent1 --link controller:controller ngrinder/agent
+
+打开localhost，admin/admin
