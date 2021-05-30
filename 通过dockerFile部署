@@ -38,5 +38,9 @@ vi /usr/lib/systemd/system/docker.service
 
 替换原有的为下行
 ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+systemctl daemon-reload 
+systemctl restart docker.service
+验证端口是否开放:
+curl http://127.0.0.1:2375/info
 本地:
 tcp://ip:2375
