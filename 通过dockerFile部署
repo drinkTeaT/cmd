@@ -37,7 +37,6 @@ linux服务器:
 vi /usr/lib/systemd/system/docker.service
 
 替换原有的为下行
-ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock DOCKER_OPTS="-H tcp://0.0.0.0:2333"
-
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
 本地:
 tcp://ip:2375
