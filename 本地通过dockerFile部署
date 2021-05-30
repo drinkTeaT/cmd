@@ -1,0 +1,32 @@
+https://blog.csdn.net/bobozai86/article/details/88875784
+
+1 idea安装插件docker
+2 pom依赖插件
+<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory></dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+3 dockerfile内容
+FROM java:8
+VOLUME /tmp
+COPY target/demo-0.0.1-SNAPSHOT.jar demo.jar
+RUN bash -c "touch /demo.jar"
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","demo.jar"]
+
+4 configuration配置docker，小锤子那里
+
+5 运行即可
