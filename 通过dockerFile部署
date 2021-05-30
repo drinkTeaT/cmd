@@ -30,3 +30,14 @@ ENTRYPOINT ["java","-jar","demo.jar"]
 4 configuration配置docker，小锤子那里
 
 5 运行即可
+
+
+远程：
+linux服务器:
+vi /usr/lib/systemd/system/docker.service
+
+替换原有的为下行
+ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock DOCKER_OPTS="-H tcp://0.0.0.0:2333"
+
+本地:
+tcp://ip:2375
