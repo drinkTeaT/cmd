@@ -1,0 +1,3 @@
+docker pull linuxserver/bookstack
+
+docker run --name=bookstack -d -e APP_URL=http://wiki.tacbin.club -e PUID=1000 -e PGID=1000 -e DB_HOST=111.1.1.1 -e DB_USER=user -e DB_PASS=123 -e DB_DATABASE=wiki -p 8181:80 -p 3366:3306 -v /Users/yuanzhenhui/Documents/docker_data/bookstack:/config --restart unless-stopped linuxserver/bookstack
