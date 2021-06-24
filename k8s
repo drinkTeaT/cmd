@@ -3,4 +3,4 @@ Minikube
 windows:
 1 choco install minikube
 2  minikube start --kubernetes-version v1.18.17
-3 minikube status
+3 运行状态: minikube status 集群信息: kubectl cluster-info
