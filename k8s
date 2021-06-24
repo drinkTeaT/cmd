@@ -1,5 +1,6 @@
 Minikube
 安装 https://v1-18.docs.kubernetes.io/zh/docs/tasks/tools/install-minikube/
+可视化 https://cloud.tencent.com/developer/article/1635648
 windows:
 1 choco install minikube
 2  minikube start --kubernetes-version v1.18.17
