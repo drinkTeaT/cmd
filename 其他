@@ -70,4 +70,4 @@ centos 系统安装 Curl 方法: yum update -y && yum install curl -y
 4  实况足球，netch设置为只tcp转发
 
 
-minio文件服务器: docker run -p 9000:9000 -v /mnt/disk/data1:/data1 minio/minio server /data1 -d
+minio文件服务器: docker run -p 9000:9000 -v /mnt/disk/data1:/data1 minio/minio server /data1 -d 默认账号密码 minioadmin:minioadmin
