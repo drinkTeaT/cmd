@@ -73,3 +73,5 @@ centos 系统安装 Curl 方法: yum update -y && yum install curl -y
 minio文件服务器: docker run -p 9000:9000 -e MINIO_ACCESS_KEY=ggggio -e MINIO_SECRET_KEY=m2222 -v /mnt/disk/data1:/data1 minio/minio server /data1
 
 docker run --privileged -d --restart=unless-stopped -p 4654:80 -p 4443:443  rancher/rancher:stable
+rancher操作文档：
+https://docs.rancher.cn/docs/rancher2/quick-start-guide/deployment/quickstart-manual-setup/_index
